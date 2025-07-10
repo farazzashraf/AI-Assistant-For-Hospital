@@ -3,3 +3,5 @@ venv
 voice_app.py
 mcp_config.json
 mcp_app.py
+__init__.py
+__pycache__/
