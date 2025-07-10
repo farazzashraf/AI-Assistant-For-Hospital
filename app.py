@@ -204,7 +204,7 @@ def create_chat_completion_with_retry(messages, tools=None, tool_choice="auto", 
             logging.info(f"Attempting chat completion (attempt {attempt + 1})")
             
             run = client.chat.completions.create(
-                model="llama-3.1-8b-instant	",  # Updated to best model
+                model="llama-3.3-70b-versatile	",  # Updated to best model
                 messages=messages,
                 temperature=0.7,
                 tools=tools,
@@ -305,88 +305,6 @@ if user_input and user_input.strip():
             response = run.choices[0].message
             logging.info(f"Raw response: {response.content!r}")
 
-
-        #     # Initialize lists to collect responses and query results
-        #     final_responses = []
-        #     query_results = []
-            
-        #     # 🧠 STEP 1 — Check if there are any tool calls
-        #     has_tool_calls = hasattr(response, "tool_calls") and response.tool_calls
-
-        #     # === 🟢 STEP 2: If NO tool calls and there's a message, just show it directly
-        #     if not has_tool_calls and response.content:
-        #         final_response = response.content.strip().capitalize()
-        #         logging.info(f"🟢 Direct reply from Agent 1 (no tool call): {final_response}")
-        #         st.session_state.messages.append({"role": "assistant", "content": final_response})
-        #         with st.chat_message("assistant"):
-        #             st.markdown(final_response)
-        #             st.success("✅ Done!")
-            
-
-        #     if hasattr(response, "tool_calls") and response.tool_calls:
-        #         # Handle multiple tool calls for database queries
-        #         for idx, tool_call in enumerate(response.tool_calls, 1):
-        #             if tool_call.function.name == "execute_query":
-        #                 tool_output = execute_query_groq(tool_call.function.arguments)
-        #                 logging.info(f"Tool call {idx} detected: {tool_call.function.name} with params: {tool_call.function.arguments}")
-        #                 query_results.append({"index": idx, "result": tool_output})
-        #             else:
-        #                 final_responses.append(f"{idx}. ⚠️ Couldn't process part of your request. Try rephrasing.")
-                
-
-        #     if response.content:
-        #         # Handle direct response (explanation or greeting)
-        #         # Split response if it contains multiple answers (e.g., numbered list)
-        #         if response.content.strip().startswith("1"):
-        #             final_responses.extend(response.content.strip().split("\n"))
-        #         else:
-        #             final_responses.append(response.content)
-
-        #     # Send all query results and explanations to Agent 2
-        #     if query_results or final_responses:
-        #         # messages_agent2 = [
-        #         #     {"role": "system", "content": system_prompt_agent2},
-        #         #     {"role": "user", "content": f"User question: {user_input}"}
-        #         # ]
-                
-        #         messages_agent2 = [{"role": "system", "content": system_prompt_agent2}]
-        #         for msg in st.session_state.messages:
-        #             messages_agent2.append({"role": msg["role"], "content": msg["content"]})
-        #         # Add the new user message at the end
-
-        #         # Add query results as function messages
-        #         for query_result in query_results:
-        #             messages_agent2.append({
-        #                 "role": "function",
-        #                 "name": "execute_query",
-        #                 "content": query_result["result"]
-        #             })
-        #         # Add direct explanations (if any) as an assistant message
-        #         if final_responses and not all("⚠️" in r for r in final_responses):
-        #             messages_agent2.append({
-        #                 "role": "assistant",
-        #                 "content": "\n".join(final_responses)
-        #             })
-
-        #         explanation_run = create_chat_completion_with_retry(messages_agent2, tools=None, tool_choice="auto")
-        #         final_response = explanation_run.choices[0].message.content
-                
-        #     else:
-        #         final_response = "⚠️ Sorry, I couldn't understand. Try rephrasing."
-
-        #     # Add combined response to chat history
-        #     st.session_state.messages.append({"role": "assistant", "content": final_response})
-        #     with st.chat_message("assistant"):
-        #         st.markdown(final_response)
-        #         st.success("✅ Done!")
-
-        # except Exception as e:
-        #     logging.error(f"Final error after all retries: {str(e)}")
-        #     error_msg = "⚠️ Sorry, there was an issue processing your request. Please try again in a moment."
-        #     st.session_state.messages.append({"role": "assistant", "content": error_msg})
-        #     with st.chat_message("assistant"):
-        #         st.markdown(error_msg)
-        
             # === 🔍 STEP 1: Check if tool calls are present
             has_tool_calls = hasattr(response, "tool_calls") and response.tool_calls
 
