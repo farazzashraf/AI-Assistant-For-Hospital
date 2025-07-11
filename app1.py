@@ -204,7 +204,7 @@ def create_chat_completion_with_retry(messages, tools=None, tool_choice="auto", 
             logging.info(f"Attempting chat completion (attempt {attempt + 1})")
             
             run = client.chat.completions.create(
-                model="llama-3.3-70b-versatile	",  # Updated to best model
+                model="llama-3.3-70b-versatile",  # Updated to best model
                 messages=messages,
                 temperature=0.7,
                 tools=tools,
